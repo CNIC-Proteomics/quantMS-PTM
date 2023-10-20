@@ -1,0 +1,8 @@
+# Install Python packages for DecoyPYrat
+biopython==1.81
+
+# Install Python packages for "add_quant"
+pandas==2.0.3
+numpy==1.25.2
+sklearn==0.0
+lxml==4.7.1

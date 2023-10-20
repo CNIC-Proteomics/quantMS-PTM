@@ -1,0 +1,21 @@
+version: 0.0.1
+
+services:
+
+  ptm-compass:
+    image: 'nextflow'
+    container_name: 'nextflow'
+    build:
+      context: './build/nextflow'
+      dockerfile: 'nextflow.Dockerfile'
+    volumes:
+      - tierra:/mnt/tierra
+
+volumes:
+  tierra:
+    name: 'tierra'
+    driver: 'local'
+    driver_opts:
+      type: 'cifs'
+      o: 'addr=tierra.cnic.es,domain=CNIC,username=jmrodriguezc,password=JaDe20-32!;'
+      device: '\\tierra.cnic.es\sc'

@@ -1,0 +1,11 @@
+# Install Python packages for SHIFTS
+pyarrow==12.0.1
+scipy==1.11.1
+tqdm==4.66.1
+pyyaml
+
+# Install Python packages for SOLVER
+pandas==2.0.3
+numpy==1.25.2
+biopython==1.81
+matplotlib==3.7.2
