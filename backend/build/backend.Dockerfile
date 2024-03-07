@@ -81,6 +81,7 @@ RUN wget -qO - https://www.mongodb.org/static/pgp/server-7.0.asc |  gpg --dearmo
 RUN echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 RUN apt update -y
 RUN apt install -y mongodb-org
+RUN apt install -y cron
 
 
 ####################################
