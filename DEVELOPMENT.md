@@ -207,6 +207,8 @@ java -version
 ```
 Otherwise:
 ```
+sudo apt install openjdk-21-jre-headless
+  or
 sudo apt install openjdk-19-jre-headless
 ```
 
