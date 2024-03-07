@@ -69,6 +69,13 @@ free -h --giga
 
 # Connect to tierra using Ubuntu
 
+
+0. Update the apt packages:
+```
+sudo apt update -y
+```
+
+
 1. Install needed packages:
 ```
 sudo apt install net-tools cifs-utils
@@ -220,6 +227,11 @@ echo 'export PATH=~/softwares/nextflow:$PATH' >> ~/.bashrc && \
   source ~/.bashrc
 ```
 
+
+# Install SGE in Ubuntu
+
+
+https://svennd.be/SGE_on_Ubuntu_20.04_LTS/
 
 
 
