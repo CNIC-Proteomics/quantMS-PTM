@@ -8,10 +8,17 @@ Reference: https://docs.docker.com/desktop/install/windows-install/
 ------------------------------
 Now that you have your Dockerfile, you can build your image. The docker build command does the heavy-lifting of creating a docker image from a Dockerfile.
 
+Open Windows Prompt:
+```
+cd S:\U_Proteomica\UNIDAD\DatosCrudos\jmrodriguezc\projects\quantMS-PTM\backend
+```
+
 ```
 cd build
 docker build -t backend -f backend.Dockerfile .
-
+```
+<!-- DEPRECATED
+```
 cd build/nextflow
 docker build -t nextflow -f nextflow.Dockerfile .
 
@@ -27,22 +34,27 @@ docker build -t shifts -f shifts.Dockerfile .
 cd build/solver
 docker build -t solver -f solver.Dockerfile .
 
-```
+``` -->
 
 Create volume
 ```
 docker volume create --driver local --opt type=cifs --opt device=\\tierra.cnic.es\sc\U_Proteomica\UNIDAD\DatosCrudos\jmrodriguezc\projects\ --opt o=addr=tierra.cnic.es,domain=CNIC,username=jmrodriguezc,password="JaDe20-33!;" --name tierra
 
-docker volume create --driver local --name opt
-
 docker volume create --driver local --name workspace
-
 ```
+
+<!-- DEPRECATED
+```
+docker volume create --driver local --name opt
+``` -->
 
 Run the nextflow contaniner
 ```
 docker run --name backend -it -v tierra:/mnt/tierra  -v workspace:/workspace -p 8080:8080 backend
+```
 
+<!-- DEPRECATED
+```
 docker run --name search_engine -it -v tierra:/mnt/tierra search_engine
 
 docker run --name refrag -it -v tierra:/mnt/tierra refrag
@@ -50,9 +62,9 @@ docker run --name refrag -it -v tierra:/mnt/tierra refrag
 docker run --name shifts -it -v tierra:/mnt/tierra shifts
 
 docker run --name solver -it -v tierra:/mnt/tierra solver
-```
+``` -->
 
-Run the nextflow contaniner with privileged but Be Carefull!!
+Run the nextflow contaniner with privileged but **Be Carefull!!**
 ```
 docker run --security-opt seccomp=unconfined --name nextflow -it -v tierra:/mnt/tierra nextflow
 docker run --privileged --name nextflow -it -v tierra:/mnt/tierra nextflow
