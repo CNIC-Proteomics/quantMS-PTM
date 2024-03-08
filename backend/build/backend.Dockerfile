@@ -101,7 +101,7 @@ RUN cat "/tmp/setup.root.sh" >> /root/.bashrc
 EXPOSE 8080
 
 # Define the command to execute when the container starts.
-# CMD cd ${NXF_API_HOME} && ./scripts/startup-local.sh mongo
+CMD cd ${NXF_API_HOME} && ./scripts/startup-local.sh mongo
 # CMD cd ${NXF_API_HOME} && ./scripts/startup-local.sh file
 
 # Setting up the environment variables
@@ -215,34 +215,36 @@ RUN unzip /tmp/${FILE_NAME}.zip -d ${RAWPARSER_HOME}
 RUN git clone https://github.com/CNIC-Proteomics/iSanXoT-dbscripts.git  ${DECOYPYRAT_HOME}
 
 # Python environment --
-# Change working directory
-WORKDIR ${DECOYPYRAT_HOME}
+
+# Declare the Python requirement file
+ARG PYTHON_REQ_FILE="python_requirements_decoypyrat.txt"
 
 # Create venv
-RUN python -m venv env
+RUN cd ${DECOYPYRAT_HOME} && python -m venv env
 
 # Requirements for Python
-COPY ${LOCAL_DIR}python_requirements_decoypyrat.txt /tmp/.
-RUN /bin/sh env/bin/activate && pip install -r /tmp/python_requirements_decoypyrat.txt
+COPY ${LOCAL_DIR}${PYTHON_REQ_FILE} /tmp/.
+RUN cd ${DECOYPYRAT_HOME} && /bin/bash -c "source ${DECOYPYRAT_HOME}/env/bin/activate && pip install -r /tmp/${PYTHON_REQ_FILE}"
 
 
 ################
 # MZ_EXTRACTOR #
 ################
 
-# Clone the program that extract the quantifications
+# Clone the program that extract the qauntifications
 RUN git clone https://github.com/CNIC-Proteomics/mz_extractor.git  ${MZEXTRACTOR_HOME}
 
 # Python environment --
-# Change working directory
-WORKDIR ${MZEXTRACTOR_HOME}
+
+# Declare the Python requirement file
+ARG PYTHON_REQ_FILE="python_requirements_mzextractor.txt"
 
 # Create venv
-RUN python -m venv env
+RUN cd ${MZEXTRACTOR_HOME} && python -m venv env
 
 # Requirements for Python
-COPY ${LOCAL_DIR}python_requirements_mzextractor.txt /tmp/.
-RUN /bin/sh env/bin/activate && pip install -r /tmp/python_requirements_mzextractor.txt
+COPY ${LOCAL_DIR}${PYTHON_REQ_FILE} /tmp/.
+RUN cd ${MZEXTRACTOR_HOME} && /bin/bash -c "source ${MZEXTRACTOR_HOME}/env/bin/activate && pip install -r /tmp/${PYTHON_REQ_FILE}"
 
 
 
@@ -299,8 +301,8 @@ ENV SRC_HOME ${INSTALLATION_HOME}/refrag
 # INSTALLATION #
 ################
 
-# Declare the version
-ARG REFRAG_VERSION=0.4.2
+# # Declare the version
+# ARG REFRAG_VERSION=0.4.2
 
 # # Dowloand the tagged version
 # # RUN wget https://github.com/CNIC-Proteomics/ReFrag/archive/refs/tags/${REFRAG_VERSION}.zip
@@ -311,20 +313,21 @@ ARG REFRAG_VERSION=0.4.2
 # COPY ${LOCAL_DIR}ReFrag-${REFRAG_VERSION}.zip /tmp/.
 # RUN unzip /tmp/ReFrag-${REFRAG_VERSION}.zip -d /tmp/
 # RUN mv /tmp/ReFrag-${REFRAG_VERSION} ${SRC_HOME}
+
 # Copy master version
 COPY ${LOCAL_DIR}ReFrag ${SRC_HOME}
 
-# Python environment
+# Python environment --
 
-# Change working directory
-WORKDIR ${SRC_HOME}
+# Declare the Python requirement file
+ARG PYTHON_REQ_FILE="python_requirements_refrag.txt"
 
 # Create venv
-RUN python -m venv env
+RUN cd ${SRC_HOME} && python -m venv env
 
 # Requirements for Python
-COPY ${LOCAL_DIR}python_requirements.txt /tmp/.
-RUN /bin/sh env/bin/activate && pip install -r /tmp/python_requirements.txt
+COPY ${LOCAL_DIR}${PYTHON_REQ_FILE} /tmp/.
+RUN cd ${SRC_HOME} && /bin/bash -c "source ${SRC_HOME}/env/bin/activate && pip install -r /tmp/${PYTHON_REQ_FILE}"
 
 
 
@@ -382,20 +385,17 @@ ENV SRC_HOME ${INSTALLATION_HOME}/shifts
 # RUN git clone https://github.com/CNIC-Proteomics/SHIFTS-4.git ${SRC_HOME}
 COPY ${LOCAL_DIR}SHIFTS-4 ${SRC_HOME}
 
+# Python environment --
 
-###############
-# PYTHON VENV #
-###############
-
-# Change working directory
-WORKDIR ${SRC_HOME}
+# Declare the Python requirement file
+ARG PYTHON_REQ_FILE="python_requirements_shifts.txt"
 
 # Create venv
-RUN python -m venv env
+RUN cd ${SRC_HOME} && python -m venv env
 
 # Requirements for Python
-COPY ${LOCAL_DIR}python_requirements.txt /tmp/.
-RUN /bin/sh env/bin/activate && pip install -r /tmp/python_requirements.txt
+COPY ${LOCAL_DIR}${PYTHON_REQ_FILE} /tmp/.
+RUN cd ${SRC_HOME} && /bin/bash -c "source ${SRC_HOME}/env/bin/activate && pip install -r /tmp/${PYTHON_REQ_FILE}"
 
 
 
@@ -453,17 +453,14 @@ ENV SRC_HOME ${INSTALLATION_HOME}/solver
 # RUN git clone https://github.com/CristinaDevesaA/TFM.git ${SRC_HOME}
 COPY ${LOCAL_DIR}Solvers-PTMap ${SRC_HOME}
 
+# Python environment --
 
-###############
-# PYTHON VENV #
-###############
-
-# Change working directory
-WORKDIR ${SRC_HOME}
+# Declare the Python requirement file
+ARG PYTHON_REQ_FILE="python_requirements_solver.txt"
 
 # Create venv
-RUN python -m venv env
+RUN cd ${SRC_HOME} && python -m venv env
 
 # Requirements for Python
-COPY ${LOCAL_DIR}python_requirements.txt /tmp/.
-RUN /bin/sh env/bin/activate && pip install -r /tmp/python_requirements.txt
+COPY ${LOCAL_DIR}${PYTHON_REQ_FILE} /tmp/.
+RUN cd ${SRC_HOME} && /bin/bash -c "source ${SRC_HOME}/env/bin/activate && pip install -r /tmp/${PYTHON_REQ_FILE}"

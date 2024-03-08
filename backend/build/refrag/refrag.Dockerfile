@@ -51,8 +51,8 @@ ENV SRC_HOME ${INSTALLATION_HOME}/refrag
 # INSTALLATION #
 ################
 
-# Declare the version
-ARG REFRAG_VERSION=0.4.2
+# # Declare the version
+# ARG REFRAG_VERSION=0.4.2
 
 # # Dowloand the tagged version
 # # RUN wget https://github.com/CNIC-Proteomics/ReFrag/archive/refs/tags/${REFRAG_VERSION}.zip
@@ -63,17 +63,18 @@ ARG REFRAG_VERSION=0.4.2
 # COPY ${LOCAL_DIR}ReFrag-${REFRAG_VERSION}.zip /tmp/.
 # RUN unzip /tmp/ReFrag-${REFRAG_VERSION}.zip -d /tmp/
 # RUN mv /tmp/ReFrag-${REFRAG_VERSION} ${SRC_HOME}
+
 # Copy master version
 COPY ${LOCAL_DIR}ReFrag ${SRC_HOME}
 
-# Python environment
+# Python environment --
 
-# Change working directory
-WORKDIR ${SRC_HOME}
+# Declare the Python requirement file
+ARG PYTHON_REQ_FILE="python_requirements_refrag.txt"
 
 # Create venv
-RUN python -m venv env
+RUN cd ${SRC_HOME} && python -m venv env
 
 # Requirements for Python
-COPY ${LOCAL_DIR}python_requirements.txt /tmp/.
-RUN /bin/sh env/bin/activate && pip install -r /tmp/python_requirements.txt
+COPY ${LOCAL_DIR}${PYTHON_REQ_FILE} /tmp/.
+RUN cd ${SRC_HOME} && /bin/bash -c "source ${SRC_HOME}/env/bin/activate && pip install -r /tmp/${PYTHON_REQ_FILE}"

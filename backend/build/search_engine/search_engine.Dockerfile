@@ -102,15 +102,16 @@ RUN unzip /tmp/${FILE_NAME}.zip -d ${RAWPARSER_HOME}
 RUN git clone https://github.com/CNIC-Proteomics/iSanXoT-dbscripts.git  ${DECOYPYRAT_HOME}
 
 # Python environment --
-# Change working directory
-WORKDIR ${DECOYPYRAT_HOME}
+
+# Declare the Python requirement file
+ARG PYTHON_REQ_FILE="python_requirements_decoypyrat.txt"
 
 # Create venv
-RUN python -m venv env
+RUN cd ${DECOYPYRAT_HOME} && python -m venv env
 
 # Requirements for Python
-COPY ${LOCAL_DIR}python_requirements_decoypyrat.txt /tmp/.
-RUN /bin/sh env/bin/activate && pip install -r /tmp/python_requirements_decoypyrat.txt
+COPY ${LOCAL_DIR}${PYTHON_REQ_FILE} /tmp/.
+RUN cd ${DECOYPYRAT_HOME} && /bin/bash -c "source ${DECOYPYRAT_HOME}/env/bin/activate && pip install -r /tmp/${PYTHON_REQ_FILE}"
 
 
 ################
@@ -121,12 +122,13 @@ RUN /bin/sh env/bin/activate && pip install -r /tmp/python_requirements_decoypyr
 RUN git clone https://github.com/CNIC-Proteomics/mz_extractor.git  ${MZEXTRACTOR_HOME}
 
 # Python environment --
-# Change working directory
-WORKDIR ${MZEXTRACTOR_HOME}
+
+# Declare the Python requirement file
+ARG PYTHON_REQ_FILE="python_requirements_mzextractor.txt"
 
 # Create venv
-RUN python -m venv env
+RUN cd ${MZEXTRACTOR_HOME} && python -m venv env
 
 # Requirements for Python
-COPY ${LOCAL_DIR}python_requirements_mzextractor.txt /tmp/.
-RUN /bin/sh env/bin/activate && pip install -r /tmp/python_requirements_mzextractor.txt
+COPY ${LOCAL_DIR}${PYTHON_REQ_FILE} /tmp/.
+RUN cd ${MZEXTRACTOR_HOME} && /bin/bash -c "source ${MZEXTRACTOR_HOME}/env/bin/activate && pip install -r /tmp/${PYTHON_REQ_FILE}"

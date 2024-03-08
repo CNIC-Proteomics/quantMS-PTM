@@ -53,17 +53,14 @@ ENV SRC_HOME ${INSTALLATION_HOME}/shifts
 # RUN git clone https://github.com/CNIC-Proteomics/SHIFTS-4.git ${SRC_HOME}
 COPY ${LOCAL_DIR}SHIFTS-4 ${SRC_HOME}
 
+# Python environment --
 
-###############
-# PYTHON VENV #
-###############
-
-# Change working directory
-WORKDIR ${SRC_HOME}
+# Declare the Python requirement file
+ARG PYTHON_REQ_FILE="python_requirements_shifts.txt"
 
 # Create venv
-RUN python -m venv env
+RUN cd ${SRC_HOME} && python -m venv env
 
 # Requirements for Python
-COPY ${LOCAL_DIR}python_requirements.txt /tmp/.
-RUN /bin/sh env/bin/activate && pip install -r /tmp/python_requirements.txt
+COPY ${LOCAL_DIR}${PYTHON_REQ_FILE} /tmp/.
+RUN cd ${SRC_HOME} && /bin/bash -c "source ${SRC_HOME}/env/bin/activate && pip install -r /tmp/${PYTHON_REQ_FILE}"
