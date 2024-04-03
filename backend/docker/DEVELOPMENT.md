@@ -10,7 +10,7 @@ Now that you have your Dockerfile, you can build your image. The docker build co
 
 Open Windows Prompt:
 ```
-cd S:\U_Proteomica\UNIDAD\DatosCrudos\jmrodriguezc\projects\quantMS-PTM\backend\build
+cd S:\U_Proteomica\UNIDAD\DatosCrudos\jmrodriguezc\projects\quantMS-PTM\backend\docker\build
 
 docker build -t backend -f backend.Dockerfile .
 ```
